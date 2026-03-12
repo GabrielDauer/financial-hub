@@ -1,4 +1,4 @@
-import Papa from "papaparse"
+import * as Papa from "papaparse"
 
 export function parseCSV(file:string){
 
