@@ -1,16 +1,25 @@
-import { NextResponse } from "next/server"
+import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url)
-  const ticker = searchParams.get("ticker")
+  const { searchParams } = new URL(req.url);
+  const tickers = searchParams.get("tickers");
+  const range = searchParams.get("range") || "1y";
+  const token = process.env.BRAPI_TOKEN;
 
-  const token = process.env.BRAPI_TOKEN
+  if (!token) {
+    return NextResponse.json(
+      { error: true, message: "Token da BRAPI não configurado" },
+      { status: 500 }
+    );
+  }
 
-  const r = await fetch(
-    `https://brapi.dev/api/quote/${ticker}?token=${token}`
-  )
+  if (!tickers) {
+    return NextResponse.json({ error: "Nenhum ticker informado" }, { status: 400 });
+  }
 
-  const data = await r.json()
+  const url = `https://brapi.dev/api/quote/${tickers}?range=${range}&fundamental=true&token=${token}`;
+  const res = await fetch(url, { cache: "no-store" });
+  const data = await res.json();
 
-  return NextResponse.json(data)
+  return NextResponse.json(data);
 }

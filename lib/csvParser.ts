@@ -1,10 +1,10 @@
-import * as Papa from "papaparse"
+import * as Papa from "papaparse";
 
-export function parseCSV(file:string){
+export function parseCSV(content: string): Record<string, string>[] {
+  const result = Papa.parse(content, {
+    header: true,
+    skipEmptyLines: true,
+  });
 
-    const parsed = Papa.parse(file,{
-        header:true
-    })
-
-    return parsed.data
+  return result.data as Record<string, string>[];
 }
