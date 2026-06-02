@@ -8,6 +8,8 @@ import {
   CandlestickChart,
   Receipt,
   Settings,
+  Globe,
+  ScanSearch,
 } from "lucide-react";
 import clsx from "clsx";
 import { motion } from "framer-motion";
@@ -16,6 +18,8 @@ const items = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/investimentos", label: "Investimentos", icon: Wallet },
   { href: "/acoes", label: "Radar de ações", icon: CandlestickChart },
+  { href: "/macroeconomia", label: "Macroeconomia", icon: Globe },
+  { href: "/screener", label: "Screener", icon: ScanSearch },
   { href: "/gastos", label: "Gastos", icon: Receipt },
   { href: "/config", label: "Configurações", icon: Settings },
 ];
