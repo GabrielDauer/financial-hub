@@ -5,9 +5,21 @@ import {
   aggregatePositions,
   normalizeB3Rows,
   validateB3Rows,
+  type LedgerEntry,
+  type Position,
 } from "@/lib/b3-extract";
 
-async function persistToAppsScript(payload: unknown) {
+type AppsScriptImportPayload = {
+  ledger: LedgerEntry[];
+  positions: Position[];
+  summary: {
+    totalPositions: number;
+    listedPositions: number;
+    fixedIncomePositions: number;
+  };
+};
+
+async function persistToAppsScript(payload: AppsScriptImportPayload) {
   const baseUrl = process.env.APPS_SCRIPT_BASE_URL;
   const secret = process.env.APPS_SCRIPT_SHARED_SECRET;
 
