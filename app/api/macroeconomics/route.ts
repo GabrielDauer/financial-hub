@@ -2,9 +2,17 @@ import { NextResponse } from "next/server";
 import { partnrFetch } from "@/lib/partnr";
 
 export async function GET() {
-  const data = await partnrFetch(
-    "macroeconomics/indicators"
-  );
+  try {
+    const indicators =
+      await partnrFetch<any[]>(
+        "macroeconomics/indicators"
+      );
 
-  return NextResponse.json(data);
+    return NextResponse.json(indicators);
+  } catch (error) {
+    return NextResponse.json(
+      { error: String(error) },
+      { status: 500 }
+    );
+  }
 }

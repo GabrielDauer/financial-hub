@@ -1,5 +1,13 @@
-const BASE_URL = process.env.PARTNR_BASE_URL!;
-const API_KEY = process.env.PARTNR_API_KEY!;
+const BASE_URL = process.env.PARTNR_BASE_URL;
+const API_KEY = process.env.PARTNR_API_KEY;
+
+if (!BASE_URL) {
+  throw new Error("PARTNR_BASE_URL não configurado");
+}
+
+if (!API_KEY) {
+  throw new Error("PARTNR_API_KEY não configurada");
+}
 
 export async function partnrFetch<T>(
   endpoint: string,
@@ -14,15 +22,17 @@ export async function partnrFetch<T>(
         "Content-Type": "application/json",
         ...(options?.headers || {}),
       },
-      next: {
-        revalidate: 3600,
-      },
+      cache: "no-store",
     }
   );
 
+  const text = await response.text();
+
   if (!response.ok) {
-    throw new Error(`Partnr Error ${response.status}`);
+    throw new Error(
+      `Partnr Error ${response.status}: ${text}`
+    );
   }
 
-  return response.json();
+  return JSON.parse(text);
 }
