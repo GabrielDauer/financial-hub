@@ -166,7 +166,8 @@ export function validateB3Rows(rows: Record<string, unknown>[]) {
 export function normalizeB3Rows(rows: Record<string, unknown>[]): LedgerEntry[] {
   return rows
     .map((row) => {
-      const direction = clean(row["Entrada/Saída"]) === "debito" ? "debito" : "credito";
+      const direction: LedgerEntry["direction"] =
+        clean(row["Entrada/Saída"]) === "debito" ? "debito" : "credito";
       const movement = clean(row["Movimentação"]);
       const product = String(row["Produto"] ?? "").trim();
       const institution = String(row["Instituição"] ?? "").trim();
